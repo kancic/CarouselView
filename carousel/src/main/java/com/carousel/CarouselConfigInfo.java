@@ -11,12 +11,12 @@ class CarouselConfigInfo {
     /**
      * Default min quantity of views.
      */
-    static final int MIN_QUANTITY = 3;
+    static final int MIN_QUANTITY = 1;
 
     /**
      * Default max quantity of views.
      */
-    static final int MAX_QUANTITY = 12;
+    static final int MAX_QUANTITY = 99;
 
     /**
      * Set diameter distortion, 1.0 = perfect circle
