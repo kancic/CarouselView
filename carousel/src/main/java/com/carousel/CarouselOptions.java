@@ -9,9 +9,8 @@ import android.util.DisplayMetrics;
  * Defines configuration {@link CarouselOptions} for a {@link CarouselView}.
  * These options can be used when adding a carousel view to your application
  * programmatically (as opposed to via XML).
- * 
+ *
  * @author Carousel View
- * 
  */
 public final class CarouselOptions {
 
@@ -65,11 +64,9 @@ public final class CarouselOptions {
 
     /**
      * Creates a new {@link CarouselOptions} object from the attribute set.
-     * 
-     * @param context
-     *            application context
-     * @param attrs
-     *            target attribute set
+     *
+     * @param context application context
+     * @param attrs   target attribute set
      */
     CarouselOptions(Context context, AttributeSet attrs) {
         initCarouselAttributes(context, attrs);
@@ -77,9 +74,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies max quantity of views.
-     * 
-     * @param maxQuantity
-     *            max quantity of views
+     *
+     * @param maxQuantity max quantity of views
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions maxQuantity(int maxQuantity) {
@@ -89,9 +85,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies min quantity of views.
-     * 
-     * @param minQuantity
-     *            min quantity of views
+     *
+     * @param minQuantity min quantity of views
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions minQuantity(int minQuantity) {
@@ -101,9 +96,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies min alpha value for carousel items.
-     * 
-     * @param minAlpha
-     *            min alpha value for carousel items
+     *
+     * @param minAlpha min alpha value for carousel items
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions minAlpha(int minAlpha) {
@@ -113,9 +107,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies max scrolling velocity for carousel view.
-     * 
-     * @param maxScrollingVelocity
-     *            max scrolling velocity for carousel view.
+     *
+     * @param maxScrollingVelocity max scrolling velocity for carousel view.
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions maxScrollingVelocity(int maxScrollingVelocity) {
@@ -125,9 +118,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies max scrolling distance for carousel view.
-     * 
-     * @param maxScrollingDistance
-     *            max scrolling distance for carousel view.
+     *
+     * @param maxScrollingDistance max scrolling distance for carousel view.
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions maxScrollingDistance(int maxScrollingDistance) {
@@ -138,9 +130,8 @@ public final class CarouselOptions {
     /**
      * Specifies duration in milliseconds from the start of a scroll during
      * which we're unsure whether the user is scrolling or flinging.
-     * 
-     * @param scrollToFlingUncertaintyTimeout
-     *            scroll to fling uncertainty timeout
+     *
+     * @param scrollToFlingUncertaintyTimeout scroll to fling uncertainty timeout
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions scrollToFlingUncertaintyTimeout(int scrollToFlingUncertaintyTimeout) {
@@ -150,9 +141,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies animation duration in milliseconds.
-     * 
-     * @param animationDuration
-     *            animation duration in milliseconds
+     *
+     * @param animationDuration animation duration in milliseconds
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions animationDuration(int animationDuration) {
@@ -162,9 +152,8 @@ public final class CarouselOptions {
 
     /**
      * Specifies selected item on carousel view.
-     * 
-     * @param selectedItem
-     *            selected item on carousel view
+     *
+     * @param selectedItem selected item on carousel view
      * @return this {@link CarouselOptions}
      */
     public CarouselOptions selectedItem(int selectedItem) {
@@ -209,7 +198,7 @@ public final class CarouselOptions {
 
     /**
      * Duration in milliseconds from the start of a scrolling.
-     * 
+     *
      * @return duration in milliseconds
      */
     int getScrollToFlingUncetaintyTimeout() {
@@ -239,49 +228,41 @@ public final class CarouselOptions {
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.Carousel);
         mSelectedItem = arr.getInteger(R.styleable.Carousel_selectedItem, 0);
 
-        int min = arr.getInteger(R.styleable.Carousel_minQuantity, CarouselConfigInfo.MIN_QUANTITY);
-        int max = arr.getInteger(R.styleable.Carousel_maxQuantity, CarouselConfigInfo.MAX_QUANTITY);
+        mMinQuantity = arr.getInteger(R.styleable.Carousel_minQuantity, CarouselConfigInfo.MIN_QUANTITY);
+        mMaxQuantity = arr.getInteger(R.styleable.Carousel_maxQuantity, CarouselConfigInfo.MAX_QUANTITY);
 
-        mMinQuantity = min < CarouselConfigInfo.MIN_QUANTITY ? CarouselConfigInfo.MIN_QUANTITY
-                : min;
-        mMaxQuantity = max > CarouselConfigInfo.MAX_QUANTITY ? CarouselConfigInfo.MAX_QUANTITY
-                : max;
-        if (arr.length() < mMinQuantity || arr.length() > mMaxQuantity)
-            throw new IllegalArgumentException("Invalid set of items.");
+        if (arr.length() < mMinQuantity || arr.length() > mMaxQuantity) throw new IllegalArgumentException("Invalid set of items.");
 
-        mMaxScrollingVelocity = arr.getInt(R.styleable.Carousel_maxScrollingVelocity,
-                CarouselConfigInfo.MAX_SCROLLING_VELOCITY);
-        mMaxScrollingDistance = arr.getInt(R.styleable.Carousel_maxScrollingDistance,
-                CarouselConfigInfo.MAX_SCROLLING_DISTANCE);
-        
+        mMaxScrollingVelocity = arr.getInt(R.styleable.Carousel_maxScrollingVelocity, CarouselConfigInfo.MAX_SCROLLING_VELOCITY);
+        mMaxScrollingDistance = arr.getInt(R.styleable.Carousel_maxScrollingDistance, CarouselConfigInfo.MAX_SCROLLING_DISTANCE);
+
         // Scroll coefficient used for improve touch handling on small density screen
         mMaxScrollingDistance = mMaxScrollingDistance - getScrollingDistanceCoefficient(context);
-        mScrollToFlingUncertaintyTimeout = arr.getInt(
-                R.styleable.Carousel_scrollToFlingUncertaintyTimeout,
-                CarouselConfigInfo.SCROLL_TO_FLING_UNCERTAINTY_TIMEOUT);
-        mAnimationDuration = arr.getInt(R.styleable.Carousel_animationDuration,
-                CarouselConfigInfo.ANIMATION_DURATION);
+        mScrollToFlingUncertaintyTimeout = arr.getInt(R.styleable.Carousel_scrollToFlingUncertaintyTimeout,
+                                                      CarouselConfigInfo.SCROLL_TO_FLING_UNCERTAINTY_TIMEOUT
+        );
+        mAnimationDuration = arr.getInt(R.styleable.Carousel_animationDuration, CarouselConfigInfo.ANIMATION_DURATION);
         mMinAlpha = arr.getInt(R.styleable.Carousel_minAlpha, CarouselConfigInfo.MIN_ALPHA);
     }
 
     private int getScrollingDistanceCoefficient(Context context) {
         int result = 0;
-        
+
         switch (context.getResources().getDisplayMetrics().densityDpi) {
-        case DisplayMetrics.DENSITY_LOW:
-            result = 0;
-        case DisplayMetrics.DENSITY_MEDIUM:
-            result = 0;
-            break;
-        case DisplayMetrics.DENSITY_HIGH:
-            result = 3;
-            break;
-        case DisplayMetrics.DENSITY_XHIGH:
-            result = 4;
-            break;
-        default:
-            result = 8;
-            break;
+            case DisplayMetrics.DENSITY_LOW:
+                result = 0;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                result = 0;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                result = 3;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                result = 4;
+                break;
+            default:
+                result = 8;
+                break;
         }
         return result;
     }
