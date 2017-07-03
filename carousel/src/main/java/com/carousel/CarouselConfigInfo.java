@@ -32,12 +32,12 @@ class CarouselConfigInfo {
     /**
      * Tilt angle, negative lifts up back, positive lowers back.
      */
-    static float TILT = -0.3f;  
+    static float TILT = -0.6f;
     
     /**
      * Limit depth scale used to shrink far objects to not fall below this minimum scale.
      */
-    static final float MIN_SCALE = 0.4f;        
+    static final float MIN_SCALE = 0.2f;
     
     /**
      * Max velocity for scrolling.

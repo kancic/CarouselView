@@ -1,9 +1,5 @@
 package com.carousel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,10 +19,13 @@ import android.view.ViewGroup;
 import android.view.animation.Transformation;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implements {@link CarouselSpinner}.
- * 
+ *
  * @author Carousel View
  */
 public class CarouselView extends CarouselSpinner implements GestureDetector.OnGestureListener {
@@ -104,7 +103,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     private boolean mRelayoutAllowed = true;
     private boolean mOnFlingStarted = false;
-    
+
     private OnClickListener mEmptyClickListener = new OnClickListener() {
         public void onClick(View v) {
             // Do nothing
@@ -135,15 +134,13 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         initCarouselView();
     }
 
-
     /**
      * Implemented to handle touch screen motion events.
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!this.isEnabled())
-            return false;
-        
+        if (!this.isEnabled()) return false;
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             mDownTouchPosition = getDownTouchPosition(event);
         }
@@ -166,12 +163,11 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
         return true;
     }
-    
+
     /**
      * Sets carousel scroll listener.
-     * 
-     * @param carouselScrollListener
-     *          instance of {@link CarouselScrollListener}
+     *
+     * @param carouselScrollListener instance of {@link CarouselScrollListener}
      */
     public void setCarouselScrollListener(CarouselScrollListener carouselScrollListener) {
         mCarouselScrollListener = carouselScrollListener;
@@ -294,12 +290,9 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     /**
      * This method add view to carousel view.
-     * 
-     * @param childView
-     *            instance of view.
-     * 
-     * @throws NullPointerException
-     *             Every time when argument <code>null</code>.
+     *
+     * @param childView instance of view.
+     * @throws NullPointerException Every time when argument <code>null</code>.
      */
     @Override
     public void addView(View childView) {
@@ -313,14 +306,10 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
     /**
      * This method add view to carousel view and register a callback to be
      * invoked when this view is clicked.
-     * 
-     * @param childView
-     *            instance of view.
-     * @param action
-     *            the callback that will run.
-     * 
-     * @throws NullPointerException
-     *             every time when arguments <code>null</code>.
+     *
+     * @param childView instance of view.
+     * @param action    the callback that will run.
+     * @throws NullPointerException every time when arguments <code>null</code>.
      */
     public void addView(View childView, OnClickListener action) {
         if ((null == childView) || (null == action)) {
@@ -332,12 +321,9 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     /**
      * This method add view to carousel view by id.
-     * 
-     * @param childViewId
-     *            id of view.
-     * 
-     * @throws IllegalArgumentException
-     *             Every time when argument equals <code>-1</code>.
+     *
+     * @param childViewId id of view.
+     * @throws IllegalArgumentException Every time when argument equals <code>-1</code>.
      */
     public void addView(int childViewId) {
         if (-1 == childViewId) {
@@ -363,8 +349,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
      */
     public void setSelection(int position, boolean animate) {
         // Animate only if requested position is already on screen somewhere
-        boolean shouldAnimate = animate && mFirstPosition <= position
-                && position <= mFirstPosition + getChildCount() - 1;
+        boolean shouldAnimate = animate && mFirstPosition <= position && position <= mFirstPosition + getChildCount() - 1;
 
         setSelectionInt(position, shouldAnimate);
     }
@@ -380,19 +365,16 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     public void scrollToChild(int idx) {
         CarouselItemHolder view = (CarouselItemHolder) getAdapter().getView(idx, null, null);
-        if(null == view) {
+        if (null == view) {
             return;
         }
 
         float angle = view.getCurrentAngle();
 
-        if (angle == 0)
-            return;
+        if (angle == 0) return;
 
-        if (angle > 180.0f)
-            angle = 360.0f - angle;
-        else
-            angle = -angle;
+        if (angle > 180.0f) angle = 360.0f - angle;
+        else angle = -angle;
 
         mFlingRunnable.startUsingDistance(angle);
     }
@@ -450,8 +432,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         ArrayList<CarouselItemHolder> sl = new ArrayList<CarouselItemHolder>();
         for (int j = 0; j < childCount; j++) {
             CarouselItemHolder view = (CarouselItemHolder) getAdapter().getView(j, null, null);
-            if (i == 0)
-                view.setDrawn(false);
+            if (i == 0) view.setDrawn(false);
             sl.add((CarouselItemHolder) getAdapter().getView(j, null, null));
         }
 
@@ -518,8 +499,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
         CarouselItemHolder child = (CarouselItemHolder) getAdapter().getView(0, null, null);
 
-        if (child.getWidth() > 0)
-            mCarouselDiameter = Math.min(getMeasuredWidth(), child.getWidth() * 2);
+        if (child.getWidth() > 0) mCarouselDiameter = Math.min(getMeasuredWidth(), child.getWidth() * 2);
 
         int count = getAdapter().getCount();
         float angleUnit = 360.0f / count;
@@ -527,8 +507,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         float angleOffset = mSelectedPosition * angleUnit;
         for (int i = 0; i < getAdapter().getCount(); i++) {
             float angle = angleUnit * i - angleOffset;
-            if (angle < 0.0f)
-                angle = 360.0f + angle;
+            if (angle < 0.0f) angle = 360.0f + angle;
             makeAndAddView(i, angle);
         }
 
@@ -640,21 +619,18 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         for (int i = 0; i < getAdapter().getCount(); i++) {
             CarouselItemHolder item = (CarouselItemHolder) getAdapter().getView(i, null, null);
             angle = item.getCurrentAngle();
-            if (angle > 180.0f)
-                angle = (360.0f - angle);
+            if (angle > 180.0f) angle = (360.0f - angle);
             if (angle < smallestAngle) {
                 smallestAngle = angle;
                 smallestPos = i;
             }
         }
 
-        CarouselItemHolder item = (CarouselItemHolder) getAdapter()
-                .getView(smallestPos, null, null);
+        CarouselItemHolder item = (CarouselItemHolder) getAdapter().getView(smallestPos, null, null);
         angle = item.getCurrentAngle();
 
         // Make it minimum to rotate
-        if (angle > 180.0f)
-            angle = -(360.0f - angle);
+        if (angle > 180.0f) angle = -(360.0f - angle);
 
         // Start rotation if still more than 1 degree to rotate
         if (Math.abs(angle) > 1) {
@@ -672,22 +648,20 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
     /**
      * Helper for makeAndAddView to set the position of a view and fill out its
      * layout paramters.
-     * 
-     * @param child
-     *            The view to position
-     * @param index
-     *            index-coordintate indicating where this view should be placed.
-     *            This will either be the left or right edge of the view,
-     *            depending on the fromLeft paramter
-     * @param angleOffset
-     *            Are we posiitoning views based on the left edge? (i.e.,
-     *            building from left to right)?
+     *
+     * @param child       The view to position
+     * @param index       index-coordintate indicating where this view should be placed.
+     *                    This will either be the left or right edge of the view,
+     *                    depending on the fromLeft paramter
+     * @param angleOffset Are we posiitoning views based on the left edge? (i.e.,
+     *                    building from left to right)?
      */
     private void setUpChild(CarouselItemHolder child, int index, float angleOffset) {
         /* Check whether child doesn't have parent */
         if (child.getParent() == null) {
-            // Ignore any layout parameters for child, use wrap content
-            addViewInLayout(child, -1 /* index */, generateDefaultLayoutParams());
+            LayoutParams layoutParams = child.getLayoutParams() != null ? child.getLayoutParams() : generateDefaultLayoutParams();
+
+            addViewInLayout(child, -1 /* index */, layoutParams);
         }
 
         child.setSelected(index == mSelectedPosition);
@@ -717,9 +691,8 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
      * Tracks a motion scroll. In reality, this is used to do just about any
      * movement to items (touch scroll, arrow-key scroll, set an item as
      * selected).
-     * 
-     * @param deltaAngle
-     *            Change in X from the previous event.
+     *
+     * @param deltaAngle Change in X from the previous event.
      */
     private void trackMotionScroll(float deltaAngle) {
         if (getChildCount() == 0) {
@@ -734,11 +707,9 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
             float angle = child.getCurrentAngle();
             angle += deltaAngle;
 
-            while (angle > 360.0f)
-                angle -= 360.0f;
+            while (angle > 360.0f) angle -= 360.0f;
 
-            while (angle < 0.0f)
-                angle += 360.0f;
+            while (angle < 0.0f) angle += 360.0f;
 
             child.setCurrentAngle(angle);
             calculateItemPosition(child, angle);
@@ -826,7 +797,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     private int getScrollVelocity(final float initialVelocity) {
         int result = 0;
-        if(getCount() != 0) {
+        if (getCount() != 0) {
             if (initialVelocity > 0) {
                 result = (int) Math.min(initialVelocity, mCarouselOptions.getMaxScrollingVelocity() / getCount());
             } else {
@@ -844,17 +815,15 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         final CarouselItemHolder selectedView = (CarouselItemHolder) getSelectedView();
 
         if (null == selectedView) {
-        	return false;
+            return false;
         }
 
         selectedView.setDispatchTouchEventEnable(true);
 
         if (DisplayMetrics.DENSITY_TV == getResources().getDisplayMetrics().densityDpi) {
-            event.setLocation(event.getX() - (int) (selectedView.getItemX()),
-                    (event.getY() - (Math.abs(selectedView.getItemY()))));
+            event.setLocation(event.getX() - (int) (selectedView.getItemX()), (event.getY() - (Math.abs(selectedView.getItemY()))));
         } else {
-            event.setLocation(event.getX() - (int) (selectedView.getItemX()),
-                    ((event.getY() - (selectedView.getItemY()))));
+            event.setLocation(event.getX() - (int) (selectedView.getItemX()), ((event.getY() - (selectedView.getItemY()))));
         }
         result = selectedView.dispatchTouchEvent(event);
         selectedView.setDispatchTouchEventEnable(false);
@@ -862,14 +831,12 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         return result;
     }
 
-    private final Matrix getChildTransformationMatrix(final CarouselItemHolder item,
-            final Transformation transformation) {
+    private final Matrix getChildTransformationMatrix(final CarouselItemHolder item, final Transformation transformation) {
         float scale = item.getItemScale();
         float scaleXOff = item.getWidth() / 2.0f * (1.0f - scale);
 
         float centerX = (float) getWidth() / 2;
-        scaleXOff += (item.getItemX() + item.getWidth() / 2 - centerX)
-                * mViewCoefficientHolder.mDiameterScale;
+        scaleXOff += (item.getItemX() + item.getWidth() / 2 - centerX) * mViewCoefficientHolder.mDiameterScale;
 
         final Matrix matrix = transformation.getMatrix();
         matrix.setTranslate(item.getItemX() + scaleXOff, item.getItemY());
@@ -885,8 +852,8 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         float r = (float) (diameter / 2);
         float scale = calculateItemScale(angleRadian);
 
-        float x = r * (1.0f - (float)Math.sin(angleRadian));
-        float z = r * -(float)Math.cos(angleRadian); // z = -r..r
+        float x = r * (1.0f - (float) Math.sin(angleRadian));
+        float z = r * -(float) Math.cos(angleRadian); // z = -r..r
 
         float y = (getHeight() - child.getHeight()) / 2 + z * mViewCoefficientHolder.mTilt;
         y -= child.getHeight() / 4 * (1 - scale);
@@ -906,17 +873,17 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
     }
 
     // TODO need to found better way for supporting multi screen.
+
     /**
      * Provides {@link ViewCoefficientHolder}, which holds values which improve
      * displaying of carousel view items on different screen resolutions.
-     * 
+     *
      * @return instance of {@link ViewCoefficientHolder}
      */
     private ViewCoefficientHolder getViewCoefficient() {
         int dpi = getResources().getDisplayMetrics().densityDpi;
         float dpiScale = (float) dpi / DisplayMetrics.DENSITY_HIGH;
-        return new ViewCoefficientHolder(0.0f, CarouselConfigInfo.DIAMETER_SCALE * dpiScale,
-                CarouselConfigInfo.TILT);
+        return new ViewCoefficientHolder(0.0f, CarouselConfigInfo.DIAMETER_SCALE * dpiScale, CarouselConfigInfo.TILT);
     }
 
     private boolean dispatchLongPress(View view, int position, long id) {
@@ -958,7 +925,6 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
         // Position the view
         setUpChild(child, child.getIndex(), angleOffset);
-
     }
 
     private void initCarouselAdapter() {
@@ -977,8 +943,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     private void restoreGestureDetectorState(MotionEvent event) {
         mRelayoutAllowed = false;
-        if ((event.getAction() == MotionEvent.ACTION_UP)
-                || (event.getAction() == MotionEvent.ACTION_CANCEL)) {
+        if ((event.getAction() == MotionEvent.ACTION_UP) || (event.getAction() == MotionEvent.ACTION_CANCEL)) {
             if (!mOnFlingStarted) {
                 mIsHorizontalScroll = true;
                 onUp();
@@ -1025,8 +990,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
     }
 
     private void initSelectedPosition() {
-        if ((mCarouselOptions.getSelectedItem() < 0)
-                || (mCarouselOptions.getSelectedItem() >= mAdapter.getCount())) {
+        if ((mCarouselOptions.getSelectedItem() < 0) || (mCarouselOptions.getSelectedItem() >= mAdapter.getCount())) {
             setNextSelectedPositionInt(0);
         } else {
             setNextSelectedPositionInt(mCarouselOptions.getSelectedItem());
@@ -1055,9 +1019,8 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     /**
      * Holds a values for carousel's view.
-     * 
+     *
      * @author Nazar Ivanchuk
-     * 
      */
     private static class ViewCoefficientHolder {
 
@@ -1072,7 +1035,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     /**
      * Carousel adapter class for the carousel items.
-     * 
+     *
      * @author Nazar Ivanchuk
      */
     private class CarouselItemAdapter extends BaseAdapter {
@@ -1114,7 +1077,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
                 return convertView;
             }
         }
-        
+
         private boolean isIndexExists(List<CarouselItemHolder> list, int index) {
             return (index >= 0) && (index < list.size());
         }
@@ -1122,7 +1085,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
 
     /**
      * Rotation class for the Carousel.
-     * 
+     *
      * @author ???
      * @author Nazar Ivanchuk
      */
@@ -1151,8 +1114,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         }
 
         private void startUsingVelocity(float initialVelocity) {
-            if (initialVelocity == 0)
-                return;
+            if (initialVelocity == 0) return;
 
             initialVelocity = getScrollVelocity(initialVelocity);
             startCommon();
@@ -1164,8 +1126,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         }
 
         private void startUsingDistance(float deltaAngle) {
-            if (Math.abs(deltaAngle) < 1)
-                return; // Ignore rotation request if less than 1 degree.
+            if (Math.abs(deltaAngle) < 1) return; // Ignore rotation request if less than 1 degree.
 
             startCommon();
 
@@ -1185,8 +1146,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
              */
             mRotator.forceFinished(true);
 
-            if (scrolling)
-                scrollIntoSlots();
+            if (scrolling) scrollIntoSlots();
         }
 
         @Override
@@ -1236,8 +1196,7 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
         Bitmap frontViewBitmap = carouselPanel.getDrawingCache();
         Paint paint = new Paint();
         paint.setAlpha((int) (((CarouselItemHolder) carouselPanel).getAlpha() * 255.0f));
-        canvas.drawBitmap(frontViewBitmap, ((CarouselItemHolder) carouselPanel).getCIMatrix(),
-                paint);
+        canvas.drawBitmap(frontViewBitmap, ((CarouselItemHolder) carouselPanel).getCIMatrix(), paint);
         carouselPanel.setDrawingCacheEnabled(false);
     }
 
@@ -1253,25 +1212,22 @@ public class CarouselView extends CarouselSpinner implements GestureDetector.OnG
     /**
      * Callback interface intended to notify about the fact that selected
      * position was changed.
-     * 
+     *
      * @author Carousel View
-     * 
      */
     public interface CarouselScrollListener {
 
         /**
          * Notify about the fact that selected position was changed.
-         * 
-         * @param position
-         *            selected position
+         *
+         * @param position selected position
          */
         void onPositionChanged(int position);
-        
+
         /**
          * Notify when carousel position has been clicked to navigate away.
-         * 
-         * @param position
-         *            selected position
+         *
+         * @param position selected position
          */
         void onPositionClicked(int position);
     }
